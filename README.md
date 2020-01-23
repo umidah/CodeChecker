@@ -1,5 +1,5 @@
 # CodeChecker
 checks code similarity
 
-#Requirements
+# Requirements
 this repository is for a requirement in our LBYCP2D class
