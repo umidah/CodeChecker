@@ -56,10 +56,26 @@ public:
 
     void loadFileLines(string filename){
         ifstream file(filename);
-        string line;
+        string line, substring1;
+        bool block=false;
+        int x;
         while(!file.eof()){
             getline(file, line, '\n');
-            lines.push_back(line);
+            for(x = 0; line.at(x) != '\n'; x++){
+                    if(line.at(x) != ' ') break;
+            }
+            if(line.at(x) == '\n') continue;
+            if(line.at(x) == '/'){
+                if (line.at(x+1) == '*') block = true;
+                continue;
+            }
+            if(line.at(x) == '*'){
+                block  = false;
+                continue;
+            }
+            if(block) continue;
+            substring1 = line.substr(x, line.size());
+            lines.push_back(substring1);
         }
         file.close();
     }
@@ -143,6 +159,25 @@ public:
     }
 };
 
+class wordAmountArr{
+private:
+    vector<wordAmount> data;
+
+public:
+    void push(wordAmount& a){
+        this->data.push_back(a);
+    }
+
+    wordAmount at(int x){
+        return data[x];
+    }
+
+    void comparisonMatrix(){
+        wordAmount temp;
+    }
+
+};
+
 float getPercentDiff(int a, int b, int diff);
 
 int main()
@@ -157,17 +192,17 @@ int main()
         b.loadFileLines("filesToRead/0/test_program2.java");
         aI = a.vecStringValue();
         bI = b.vecStringValue();
-        //lineDiff = a.getLineDiff(b);
-        cout << lineDiff << endl;
+        lineDiff = a.getLineDiff(b);
+        //cout << lineDiff << endl;
         cout << "Pair 1" << endl << endl;
         cout << "Word int value metric:" << endl;
         cout << aI << "\t" << bI << endl;
-        cout << "Average percent difference between the lines: "<< 100*getPercentDiff(aI, bI, aI-bI) << endl;
+        cout << "percent difference: "<< 100*getPercentDiff(aI, bI, aI-bI) << endl;
         cout << "percent similarity: "<< 100*(1-getPercentDiff(aI, bI, aI-bI)) << endl;
         cout << endl;
         cout << "Line int value metric:" << endl;
         cout << aI << "\t" << bI << endl;
-        cout << "percent difference: "<< 100.f*lineDiff << endl;
+        cout << "Average percent difference between the lines: "<< 100.f*lineDiff << endl;
         cout << "percent similarity: "<< 100.f*(1.f-lineDiff) << endl;
         cout << endl;
         cout << "Word equality metric:" << endl;
@@ -191,12 +226,12 @@ int main()
         cout << "Pair 1" << endl << endl;
         cout << "Word int value metric:" << endl;
         cout << aI << "\t" << bI << endl;
-        cout << "Average percent difference between the lines: "<< 100*getPercentDiff(aI, bI, aI-bI) << endl;
+        cout << "percent difference: "<< 100*getPercentDiff(aI, bI, aI-bI) << endl;
         cout << "percent similarity: "<< 100*(1-getPercentDiff(aI, bI, aI-bI)) << endl;
         cout << endl;
         cout << "Line int value metric:" << endl;
         cout << aI << "\t" << bI << endl;
-        cout << "percent difference: "<< 100.f*lineDiff << endl;
+        cout << "Average percent difference between the lines: "<< 100.f*lineDiff << endl;
         cout << "percent similarity: "<< 100.f*(1.f-lineDiff) << endl;
         cout << endl;
         cout << "Word equality metric:" << endl;
@@ -204,15 +239,6 @@ int main()
         temp =((float)a.wordSimilarity(b)/(float)a.size());
         cout << temp*100 << "%" << endl;
     }
-    /*
-    a.insertWord("word");
-    a.printWords();
-    a.insertWord("word");
-    a.insertWord("word");
-    a.printWords();
-    a.insertWord("amount");
-    a.printWords();
-    */
 }
 
 float getPercentDiff(int a, int b, int diff){
