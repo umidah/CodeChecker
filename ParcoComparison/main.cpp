@@ -21,7 +21,7 @@ public:
     float average = 0;
     bool comment;
 
-    void loadFile(string path){
+    void loadFileKyle(string path){
         ifstream file(path);
         if (file.is_open()){
             while(!file.eof()){
@@ -65,7 +65,7 @@ public:
         }
     }
 
-    void testCode(test a){
+    void testCode(wordAmount a){
         while(!this->qLine.empty()&&!a.qLine.empty()){
             if(this->qLine.front()==a.qLine.front()) same++;
             this->qLine.pop();
@@ -125,8 +125,9 @@ public:
         while(!file.eof()){
             file >> line;
             for(x = 0; line.at(x) != '\n'; x++){
-                    if(line.at(x) != ' ') break;
+                    if(line.at(x) != ' ' && line.at(x) != '\t') break;
             }
+            if(line.size() == 0) continue;
             if(line.at(x) == '\n') continue;
             if(line.at(x) == '/'){
                 if (line.at(x+1) == '*') block = true;
@@ -137,7 +138,8 @@ public:
                 continue;
             }
             if(block) continue;
-            substring1 = line.substr(x, line.size());
+            if(line.size() > 0) substring1 = line.substr(x, line.size());
+            else substring1 = "";
             this->insertWord(substring1);
             entireThing += substring1;
         }
@@ -153,6 +155,7 @@ public:
         if(!file.is_open()) return;
         while(!file.eof()){
             getline(file, line, '\n');
+            if(line.size() == 0) continue;
             for(x = 0; line.at(x) != '\n'; x++){
                     if(line.at(x) != ' ') break;
             }
@@ -166,7 +169,8 @@ public:
                 continue;
             }
             if(block) continue;
-            substring1 = line.substr(x, line.size());
+            if(line.size() > 0) substring1 = line.substr(x, line.size());
+            else substring1 = "";
             lines.push_back(substring1);
         }
         file.close();
@@ -223,8 +227,6 @@ public:
         auto b = comp.currentWordsRepeat;
         int size = a.size();
         if(a.size() > b.size()) size = b.size();
-        sort(b.begin(), b.end());
-        sort(a.begin(), a.end());
         for(int x = 0; x<size; x++){
             if(a[x].compare(b[x])==0) count++;
         }
@@ -256,8 +258,10 @@ private:
     queue<string> currentDir;
     vector<wordAmount> data;
     float** matrix;
+    int matrixSize;
 
 public:
+
     void push(wordAmount& a){
         this->data.push_back(a);
     }
@@ -281,37 +285,59 @@ public:
         if(ind >= 0 && ind < data.size()) return data[ind];
     }
 
-    void makeMatrix(){
+    void deleteMatrix(){
+        /*
+        for(size_t i = 0; i<this->matrixSize; i++){
+                delete[] matrix[i];
+        }
+        */
+        delete[] matrix;
+        this->matrixSize = 0;
+    }
+
+    void makeMatrix1(){
+        //if(this->matrixSize ==0) deleteMatrix();
         int a, b, diff;
         wordAmount *temp;
         size_t size = this->data.size();
-        //cout << size << endl;
+        cout << size << endl;
+        this->matrixSize = size;
         this->matrix = new float*[size];
         for(size_t i = 0; i< size; i++){
-            //cout << "i: " << i << endl;
             this->matrix[i] = new float[size];
             temp = &this->data[i];
             a = temp->vecStringValue();
-            //cout << "a: " << a << "\t";
             for(size_t j = 0; j < size; j++){
-                //cout << "j: " << j << endl;
                 b = this->data[j].vecStringValue();
-                //cout << "b: " << b << "\t";
                 diff = a-b;
                 if(diff < 0.f) diff = -diff;
-                //cout << "diff: " << diff << endl;
                 this->matrix[i][j] = 2*(0.5-getPercentDiff(a, b, diff));
+            }
+        }
+    }
+
+    void makeMatrix2(){
+        //if(this->matrixSize ==0) deleteMatrix();
+        float a;
+        wordAmount *temp;
+        size_t size = this->data.size();
+        this->matrix = new float*[size];
+        this->matrixSize = size;
+        for(size_t i = 0; i< size; i++){
+            this->matrix[i] = new float[size];
+            temp = &this->data[i];
+            for(size_t j = 0; j < size; j++){
+                a = temp->getLineDiff(this->data[j]);
+                if(a < 0) a = -a;
+                this->matrix[i][j] =2*(0.5-a);
             }
         }
     }
 
     void printMatrix(){
         size_t size = this->data.size();
-        //cout << size << endl;
         for(size_t i = 0; i< size; i++){
-            //cout << "i: " << i << endl;
             for(size_t j = 0; j< size; j++){
-                //cout << "j: " << j << endl;
                 cout << this->matrix[i][j] << "\t";
             }
             cout << endl;
@@ -329,6 +355,7 @@ public:
         struct dirent *ent;
         char *temp;
         string all = "";
+        vector<string> allLines;
         allDirs.push(directory);
         if((dir = opendir(directory.c_str())) != NULL){
             while ((ent = readdir (dir)) != NULL) {
@@ -337,16 +364,17 @@ public:
                 if(str.at(0)!='.'){
                     wordAmount temp;
                     all += temp.loadFile(directory+str);
+                    temp.loadFileLines(directory+str);
+                    allLines.insert(allLines.end(), temp.lines.begin(), temp.lines.end());
                 }
             }
             closedir (dir);
         }
         wordAmount temp2;
         temp2.insertWord(all);
+        temp2.lines = allLines;
         this->push(temp2);
     }
-
-
 };
 
 int main()
@@ -371,6 +399,9 @@ int main()
         closedir (dir);
     }
     cout << endl;
-    temp.makeMatrix();
+    temp.makeMatrix1();
+    temp.printMatrix();
+    cout << endl;
+    temp.makeMatrix2();
     temp.printMatrix();
 }
