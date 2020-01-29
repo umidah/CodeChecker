@@ -15,10 +15,7 @@ public:
     string line;
     queue<string> qLine;
     queue<string> qPrint;
-    int count = 0, commentloc, linelength, same = 0;
-    float testTotal = 0;
-    float sameTotal = 0;
-    float average = 0;
+    int count = 0, commentloc, linelength;
     bool comment;
 
     void loadFileKyle(string path){
@@ -65,15 +62,24 @@ public:
         }
     }
 
-    void testCode(wordAmount a){
-        while(!this->qLine.empty()&&!a.qLine.empty()){
-            if(this->qLine.front()==a.qLine.front()) same++;
-            this->qLine.pop();
-            a.qLine.pop();
+    float testCode(wordAmount a){
+        float testTotal;
+        float sameTotal;
+        float average;
+        int same = 0;
+        auto x = this->qLine;
+        auto y = a.qLine;
+        while(!x.empty()&&!y.empty()){
+            if(x.front()==y.front()){
+                same++;
+            }
+            x.pop();
+            y.pop();
         }
         testTotal=this->count+a.count;
         sameTotal=same*2;
-        average=(sameTotal/testTotal)*100;
+        average=(sameTotal/testTotal);
+        return average;
     }
 
     //Parco's Stuff
@@ -334,6 +340,24 @@ public:
         }
     }
 
+    void makeMatrix3(){
+        //if(this->matrixSize ==0) deleteMatrix();
+        float a;
+        wordAmount *temp;
+        size_t size = this->data.size();
+        this->matrix = new float*[size];
+        this->matrixSize = size;
+        for(size_t i = 0; i< size; i++){
+            this->matrix[i] = new float[size];
+            temp = &this->data[i];
+            for(size_t j = 0; j < size; j++){
+                a = temp->testCode(this->data[j]);
+                if(a < 0) a = -a;
+                this->matrix[i][j] =(a);
+            }
+        }
+    }
+
     void printMatrix(){
         size_t size = this->data.size();
         for(size_t i = 0; i< size; i++){
@@ -356,6 +380,8 @@ public:
         char *temp;
         string all = "";
         vector<string> allLines;
+        queue<string> qLine;
+        int count;
         allDirs.push(directory);
         if((dir = opendir(directory.c_str())) != NULL){
             while ((ent = readdir (dir)) != NULL) {
@@ -365,6 +391,9 @@ public:
                     wordAmount temp;
                     all += temp.loadFile(directory+str);
                     temp.loadFileLines(directory+str);
+                    temp.loadFileKyle(directory+str);
+                    qLine = temp.qLine;
+                    count = temp.count;
                     allLines.insert(allLines.end(), temp.lines.begin(), temp.lines.end());
                 }
             }
@@ -372,6 +401,8 @@ public:
         }
         wordAmount temp2;
         temp2.insertWord(all);
+        temp2.qLine = qLine;
+        temp2.count = count;
         temp2.lines = allLines;
         this->push(temp2);
     }
@@ -403,5 +434,8 @@ int main()
     temp.printMatrix();
     cout << endl;
     temp.makeMatrix2();
+    temp.printMatrix();
+    cout << endl;
+    temp.makeMatrix3();
     temp.printMatrix();
 }
