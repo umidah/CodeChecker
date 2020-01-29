@@ -91,13 +91,49 @@ int main(){
 	if (test2.is_open()){
 		while(!test2.eof()){
 			getline(test2,line);
-			if (!line.empty()) { //Removes empty endlines
-				if(!line.compare(" ")==0){ //removes lines with just spaces
-					if (line.at(0)!='/'){ //removes lines that starts with comments
-						qtest2.push(line);
-						test2count++;
-					}
-				}
+			linelength=line.size();
+			if (!line.empty()) {
+				if(!line.compare("\t")==0) {
+					if (line.at(0)!='/') {
+
+						for(int i=0;i<linelength;i++){
+								//comment=false;
+								if (line.at(i)=='/'){
+									commentloc=i;
+									comment=true;
+									break;
+								}
+								else{
+										comment=false;
+									//qtest1.push(line);
+									//test1count++;
+								}
+						}
+
+								if(comment) {
+										if (line.at(commentloc-1)==' '){
+													line.erase(commentloc-1,linelength);
+													qtest2.push(line);
+													test2count++;
+													}
+										else{
+													line.erase(commentloc,linelength);
+													qtest2.push(line);
+													test2count++;
+										}
+
+								}
+								else{
+									qtest2.push(line);
+									test2count++;
+								}
+
+
+
+			}
+
+			}
+
 		}
 		}
 		test2.close();
