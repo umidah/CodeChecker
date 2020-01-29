@@ -4,8 +4,80 @@
 #include<queue>
 using namespace std;
 
+class test{
+public:
+    string line;
+    queue<string> qLine;
+    queue<string> qPrint;
+    int count = 0, commentloc, linelength, same = 0;
+    float testTotal = 0;
+    float sameTotal = 0;
+    float average = 0;
+    bool comment;
+
+    void loadFile(string path){
+        ifstream file(path);
+        if (file.is_open()){
+            while(!file.eof()){
+                getline(file,line);
+                linelength=line.size();
+                if (!line.empty()) {
+                    if(!line.compare("\t")==0) {
+                        if (line.at(0)!='/') {
+                            for(int i=0;i<linelength;i++){
+                                    //comment=false;
+                                    if (line.at(i)=='/'){
+                                        commentloc=i;
+                                        comment=true;
+                                        break;
+                                    }
+                                    else{
+                                            comment=false;
+                                    }
+                            }
+                            if(comment) {
+                                if (line.at(commentloc-1)==' '){
+                                    line.erase(commentloc-1,linelength);
+                                    qLine.push(line);
+                                    count++;
+                                }
+                                else{
+                                    line.erase(commentloc,linelength);
+                                    qLine.push(line);
+                                    count++;
+                                }
+                            }
+                            else{
+                                qLine.push(line);
+                                count++;
+                            }
+                        }
+                    }
+                }
+            }
+        file.close();
+        }
+    }
+
+    void testCode(test a){
+        while(!this->qLine.empty()&&!a.qLine.empty()){
+            if(this->qLine.front()==a.qLine.front()) same++;
+            this->qLine.pop();
+            a.qLine.pop();
+        }
+        testTotal=this->count+a.count;
+        sameTotal=same*2;
+        average=(sameTotal/testTotal)*100;
+    }
+};
+
 
 int main(){
+    test a, b;
+    a.loadFile("test_program1.cpp");
+    b.loadFile("test_program2.cpp");
+    a.testCode(b);
+    /*
 	fstream test1;
 	fstream test2;
 	string line;
@@ -132,11 +204,11 @@ int main(){
 	testtotal=test1count+test2count;
 	sametotal=same*2;
 	average=(sametotal/testtotal)*100;
-
-	cout<<"Number of lines in Test 1: "<<test1count<<"\n";
-	cout<<"Number of lines in Test 2: "<<test2count<<"\n";
-	cout<<"Number of same lines: "<<same<<"\n";
-	cout<<"Similarity Percentage: "<<average<<"%";
+	*/
+	cout<<"Number of lines in Test 1: "<<a.count<<"\n";
+	cout<<"Number of lines in Test 2: "<<b.count<<"\n";
+	cout<<"Number of same lines: "<<a.same<<"\n";
+	cout<<"Similarity Percentage: "<<a.average<<"%";
 
 
 
