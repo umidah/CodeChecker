@@ -6,6 +6,7 @@
 #include <queue>
 #include <algorithm>
 #include <dirent.h>
+#include <iomanip>
 
 using namespace std;
 
@@ -132,9 +133,11 @@ public:
         if(!file.is_open()) return "";
         while(!file.eof()){
             file >> line;
+            /*
             for(x = 0; line.at(x) != '\n'; x++){
                     if(line.at(x) != ' ' && line.at(x) != '\t') break;
             }
+            if(x == line.size()) continue;
             if(line.size() == 0) continue;
             if(line.at(x) == '\n') continue;
             if(line.at(x) == '/'){
@@ -148,6 +151,9 @@ public:
             if(block) continue;
             if(line.size() > 0) substring1 = line.substr(x, line.size());
             else substring1 = "";
+            */
+            //cout << "thing" << endl;
+            substring1 = line;
             this->insertWord(substring1);
             entireThing += substring1;
         }
@@ -163,10 +169,17 @@ public:
         if(!file.is_open()) return;
         while(!file.eof()){
             getline(file, line, '\n');
+            /*
             if(line.size() == 0) continue;
             for(x = 0; line.at(x) != '\n'; x++){
-                    if(line.at(x) != ' ') break;
+                cout << line.at(x) << "|";
+                if(line.at(x) != ' ') break;
+                if(line.at(x) != '\t') break;
             }
+            if(line.at(x) == '\n') continue;
+            cout << endl;
+            cout << x << endl;
+            if(x == line.size()) continue;
             if(line.at(x) == '\n') continue;
             if(line.at(x) == '/'){
                 if (line.at(x+1) == '*') block = true;
@@ -179,6 +192,8 @@ public:
             if(block) continue;
             if(line.size() > 0) substring1 = line.substr(x, line.size());
             else substring1 = "";
+            */
+            substring1 = line;
             lines.push_back(substring1);
         }
         file.close();
@@ -262,8 +277,8 @@ public:
 
 class wordAmountArr{
 private:
-    queue<string> allDirs;
-    queue<string> currentDir;
+    vector<string> allDirs;
+    //queue<string> currentDir;
     vector<wordAmount> data;
     float** matrix;
     int matrixSize = 0;
@@ -306,7 +321,7 @@ public:
         int a, b, diff;
         wordAmount *temp;
         size_t size = this->data.size();
-        cout << size << endl;
+        //cout << size << endl;
         this->matrixSize = size;
         this->matrix = new float*[size];
         for(size_t i = 0; i< size; i++){
@@ -314,10 +329,12 @@ public:
             temp = &this->data[i];
             a = temp->vecStringValue();
             for(size_t j = 0; j < size; j++){
+                //cout << this->data[j].entireThing << endl;
                 b = this->data[j].vecStringValue();
-                diff = a-b;
+                if(a < b) diff = a;
+                else diff = b;
                 if(diff < 0.f) diff = -diff;
-                this->matrix[i][j] = 2*(0.5-getPercentDiff(a, b, diff));
+                this->matrix[i][j] = 2*(getPercentDiff(a, b, diff)-0.5);
             }
         }
     }
@@ -359,17 +376,21 @@ public:
     }
 
     void printMatrix(){
+        char fill = ' ';
+        int base = 5;
         size_t size = this->data.size();
         for(size_t i = 0; i< size; i++){
+            cout << "| ";
             for(size_t j = 0; j< size; j++){
-                cout << this->matrix[i][j] << "\t";
+                cout << fixed << setprecision(1) << setbase(base) << setfill(fill);
+                cout << this->matrix[i][j] << " | ";
             }
             cout << endl;
         }
     }
 
     float getPercentDiff(int a, int b, int diff){
-        float avg = (a+b)/2;
+        float avg = ((float)a+(float)b)/2;
         float fDiff = (float) diff;
         return fDiff/avg;
     }
@@ -382,28 +403,52 @@ public:
         vector<string> allLines;
         queue<string> qLine;
         int count;
-        allDirs.push(directory);
+        allDirs.push_back(directory);
         if((dir = opendir(directory.c_str())) != NULL){
             while ((ent = readdir (dir)) != NULL) {
                 temp = ent->d_name;
                 string str(temp);
                 if(str.at(0)!='.'){
+                    cout << directory+str << endl;
                     wordAmount temp;
                     all += temp.loadFile(directory+str);
+                    cout << 1;
                     temp.loadFileLines(directory+str);
+                    cout << 2;
                     temp.loadFileKyle(directory+str);
+                    cout << 3;
                     qLine = temp.qLine;
+                    cout << 4;
                     count = temp.count;
+                    cout << 5;
                     allLines.insert(allLines.end(), temp.lines.begin(), temp.lines.end());
+                    cout << 6 << endl;
                 }
             }
             closedir (dir);
         }
         wordAmount temp2;
         temp2.insertWord(all);
+        temp2.entireThing = all;
         temp2.qLine = qLine;
         temp2.count = count;
         temp2.lines = allLines;
         this->push(temp2);
+    }
+
+    void loadSuperDir(string superDir){
+        DIR *dir;
+        dirent *ent;
+        char *temp;
+        if((dir = opendir(superDir.c_str())) != NULL){
+            while((ent = readdir(dir)) != NULL){
+                if(ent->d_name[0]=='.') continue;
+                temp = ent->d_name;
+                string str(temp);
+                //cout << superDir+str+"/" << endl;
+                addDir(superDir+str+"/");
+            }
+            closedir(dir);
+        }
     }
 };
