@@ -379,11 +379,15 @@ public:
         char fill = ' ';
         int base = 5;
         size_t size = this->data.size();
+        cout << "\t";
+        for(size_t i = 0; i< size; i++) cout << i << "\t";
+        cout << endl;
         for(size_t i = 0; i< size; i++){
-            cout << "| ";
+            //cout << "|";
+            cout << i << "\t";
             for(size_t j = 0; j< size; j++){
                 cout << fixed << setprecision(1) << setbase(base) << setfill(fill);
-                cout << this->matrix[i][j] << " | ";
+                cout << this->matrix[i][j] << "\t";
             }
             cout << endl;
         }

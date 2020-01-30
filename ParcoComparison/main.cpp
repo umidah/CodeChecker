@@ -3,7 +3,7 @@
 int main()
 {
     wordAmountArr temp;
-    string superDir = "submission/";
+    string superDir = "Submissions/";
     temp.loadSuperDir(superDir);
     /*
     string test = superDir+"anjelo-vicente/";
@@ -12,6 +12,9 @@ int main()
     temp.addDir(test);
     */
     temp.makeMatrix1();
+    temp.printMatrix();
+    cout << endl;
+    temp.makeMatrix3();
     temp.printMatrix();
     /*
     DIR *dir;
