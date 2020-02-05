@@ -1,21 +1,41 @@
 #include "mainwindow.h"
-
-#include "header.h"
-
-#include <QApplication>
-#include <QLabel>
+#include "ui_mainwindow.h"
 #include <QTableWidget>
-#include <QMessageBox>
+
+MainWindow::MainWindow(QWidget *parent)
+    : QMainWindow(parent)
+    , ui(new Ui::MainWindow)
+{
+    ui->setupUi(this);
+    QDir dir;
+    foreach (QFileInfo temp, dir.drives()) {
+        ui->comboBox->addItem(temp.absolutePath());
+    }
+
+    QDir dir2("C:/Users/ajtpa/Documents/GitHub/CodeChecker/QtCodeV2/Submissions");
+    foreach (QFileInfo temp, dir2.entryInfoList()) {
+        if(temp.isDir()){
+            ui->listWidget->addItem(temp.absoluteFilePath());
+        }
+    }
+
+}
+
+MainWindow::~MainWindow()
+{
+    delete ui;
+}
 
 float truncate(float a){
     float digit = 0.01;
     return (int)(a/digit)*digit;
 }
 
-
-int main(int argc, char *argv[])
+void MainWindow::on_pushButton_clicked()
 {
+    QWidget *wdg = new QWidget;
     wordAmountArr temp;
+    QTableWidget *table = new QTableWidget;
     string path = "C:/Users/ajtpa/Documents/GitHub/CodeChecker/QtCodeChecker/Submissions";
     QString Qpath = "C:/Users/ajtpa/Documents/GitHub/CodeChecker/QtCodeChecker/Submissions";
     //path = "Submissions";
@@ -33,8 +53,8 @@ int main(int argc, char *argv[])
     size = temp.matrixSize;
     float **code = temp.getMatrix();
     qDebug() << temp.matrix[0][0];
-    QApplication prog(argc, argv);
-    QTableWidget table(size,size);
+    table->setRowCount(size);
+    table->setColumnCount(size);
     for(int x = 0; x < size; x++){
         for(int y = 0; y < size; y++){
             float tempF = (code[x][y]/2) + 0.5;
@@ -44,9 +64,8 @@ int main(int argc, char *argv[])
             temp.setNum(truncate(code[x][y]));
             QTableWidgetItem *curr = new QTableWidgetItem(temp);
             curr->setBackgroundColor(color);
-            table.setItem(x,y, curr);
+            table->setItem(x,y, curr);
         }
     }
-    table.show();
-    return prog.exec();
+    table->showMaximized();
 }
