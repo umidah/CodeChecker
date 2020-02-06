@@ -1,4 +1,5 @@
 # CodeChecker
+By Angelo Parco and Kyle Megino
 checks code similarity
 
 # Requirements
