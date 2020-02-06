@@ -2,21 +2,24 @@
 #include "ui_mainwindow.h"
 #include <QTableWidget>
 
+QTableWidget *table;
+QDir *listDir;
+QDir *comboDir;
+
+QString qDir;
+
+void changeDir(QString &arg1, QListWidget *list, QComboBox *combo);
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    QDir dir;
-    foreach (QFileInfo temp, dir.drives()) {
+    ui->spinBox->setRange(0,1);
+    comboDir = new QDir("../QtCodeV2");
+    foreach (QFileInfo temp, comboDir->entryInfoList()) {
+        if(temp.isDir())
         ui->comboBox->addItem(temp.absolutePath());
-    }
-
-    QDir dir2("C:/Users/ajtpa/Documents/GitHub/CodeChecker/QtCodeV2/Submissions");
-    foreach (QFileInfo temp, dir2.entryInfoList()) {
-        if(temp.isDir()){
-            ui->listWidget->addItem(temp.absoluteFilePath());
-        }
     }
 
 }
@@ -31,24 +34,41 @@ float truncate(float a){
     return (int)(a/digit)*digit;
 }
 
+void chooseMatrix(int i, wordAmountArr &arr){
+    if(i == 0){
+        arr.makeMatrix1();
+    }
+    else if(i == 1){
+        arr.makeMatrix3();
+    }
+}
+
 void MainWindow::on_pushButton_clicked()
 {
-    QWidget *wdg = new QWidget;
+    int i = ui->spinBox->value();
+    if(table != nullptr){
+        table->close();
+        delete table;
+    }
+    //QWidget *wdg = new QWidget;
     wordAmountArr temp;
-    QTableWidget *table = new QTableWidget;
-    string path = "C:/Users/ajtpa/Documents/GitHub/CodeChecker/QtCodeChecker/Submissions";
-    QString Qpath = "C:/Users/ajtpa/Documents/GitHub/CodeChecker/QtCodeChecker/Submissions";
+    table = new QTableWidget;
+    string path = "C:/Users/Laptop/Documents/CodeChecker/QtCodeV2/Submissions";
+    path = "../QtCodeV2/Submissions";
+    path = qDir.toUtf8().constData();
+    qDebug() << QString::fromStdString(path);
+    QString Qpath = "../QtCodeV2/Submissions";
     //path = "Submissions";
     QDir dir(Qpath);
     if(dir.exists()){
-        qDebug() << "it exists";
+        qDebug() << Qpath;
     }
     else{
         qDebug() << "Does not exist";
     }
     temp.loadSuperDir(path);
     temp.loadSuperDir("Submissions/");
-    temp.makeMatrix1();
+    chooseMatrix(i, temp);
     int size = 10;
     size = temp.matrixSize;
     float **code = temp.getMatrix();
@@ -68,4 +88,61 @@ void MainWindow::on_pushButton_clicked()
         }
     }
     table->showMaximized();
+}
+
+void MainWindow::on_pushButton_2_clicked()
+{
+    QString arg1 = ui->comboBox->currentText();
+    changeDir(arg1, ui->listWidget, ui->comboBox);
+}
+
+void MainWindow::on_listWidget_itemDoubleClicked(QListWidgetItem *item)
+{
+    auto arg1 = item->text();
+    changeDir(arg1, ui->listWidget, ui->comboBox);
+}
+
+void MainWindow::on_comboBox_activated(const QString &arg1)
+{
+
+}
+
+void MainWindow::on_comboBox_currentTextChanged(const QString &arg1)
+{
+
+}
+
+void MainWindow::on_comboBox_highlighted(const QString &arg1)
+{
+
+}
+
+void changeDir(QString &arg1, QListWidget *list, QComboBox *combo){
+
+    qDir = arg1;
+    qDebug() << arg1;
+    if(listDir != nullptr){
+        delete listDir;
+        list->clear();
+    }
+    if(comboDir != nullptr){
+        delete comboDir;
+        combo->clear();
+    }
+
+    comboDir = new QDir(arg1);
+    foreach (QFileInfo temp, comboDir->entryInfoList()) {
+        if(temp.isDir())
+        combo->addItem(temp.absoluteFilePath());
+    }
+
+    listDir = new QDir(arg1);
+    foreach (QFileInfo temp, listDir->entryInfoList()) {
+       list->addItem(temp.absoluteFilePath());
+    }
+}
+
+void MainWindow::on_spinBox_valueChanged(int arg1)
+{
+
 }
