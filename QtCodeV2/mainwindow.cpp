@@ -1,12 +1,14 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include <QTableWidget>
+#include <QMessageBox>
 
 QTableWidget *table;
 QDir *listDir;
 QDir *comboDir;
 
 QString qDir;
+QString defDir;
 
 void changeDir(QString &arg1, QListWidget *list, QComboBox *combo);
 
@@ -14,14 +16,26 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
+    ifstream file("../QtCodeV2/defaultDir.txt");
+    string temp;
+    if(file.is_open()){
+        getline(file, temp, '\n');
+        qDir = QString::fromStdString(temp);
+    }
+    else{
+        qDir = "../QtCodeV2";
+    }
+    file.close();
     ui->setupUi(this);
     ui->spinBox->setRange(0,1);
-    comboDir = new QDir("../QtCodeV2");
+    comboDir = new QDir(qDir);
+    changeDir(qDir, ui->listWidget, ui->comboBox);
+    /*
     foreach (QFileInfo temp, comboDir->entryInfoList()) {
         if(temp.isDir())
         ui->comboBox->addItem(temp.absolutePath());
     }
-
+    */
 }
 
 MainWindow::~MainWindow()
@@ -145,4 +159,24 @@ void changeDir(QString &arg1, QListWidget *list, QComboBox *combo){
 void MainWindow::on_spinBox_valueChanged(int arg1)
 {
 
+}
+
+void MainWindow::on_pushButton_3_clicked()
+{
+    defDir = ui->comboBox->currentText();
+    ofstream file("../QtCodeV2/defaultDir.txt");
+    if(!file.is_open()){
+        QMessageBox error;
+        error.setText("Default path file DNE!");
+        error.setIcon(QMessageBox::Icon(2));
+        error.exec();
+    }
+    else{
+        QMessageBox success;
+        file << defDir.toStdString();
+        success.setText("Current default directory is " + defDir);
+        success.setIcon(QMessageBox::Icon(1));
+        success.exec();
+        file.close();
+    }
 }
