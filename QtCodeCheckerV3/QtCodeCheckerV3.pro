@@ -20,6 +20,7 @@ SOURCES += \
     mainmenu.cpp
 
 HEADERS += \
+    fileReader.h \
     mainmenu.h
 
 FORMS += \

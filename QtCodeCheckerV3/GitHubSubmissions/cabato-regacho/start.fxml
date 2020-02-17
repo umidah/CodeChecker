@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.TilePane?>
+
+<AnchorPane prefHeight="699.0" prefWidth="760.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
+   <children>
+      <TextField layoutX="14.0" layoutY="14.0" prefHeight="27.0" prefWidth="472.0" promptText="Enter Developer Name" />
+      <Button layoutX="626.0" layoutY="14.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="120.0" text="View Full Matrix" />
+      <Button layoutX="497.0" layoutY="14.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="120.0" text="View Correlation" />
+      <TilePane fx:id="t1" layoutX="32.0" layoutY="88.0" prefHeight="69.0" prefWidth="114.0" style="-fx-background-color: grey;" />
+      <TilePane fx:id="t6" layoutX="32.0" layoutY="168.0" prefHeight="69.0" prefWidth="114.0" style="-fx-background-color: grey;" />
+      <TilePane fx:id="t11" layoutX="32.0" layoutY="248.0" prefHeight="69.0" prefWidth="114.0" style="-fx-background-color: grey;" />
+      <TilePane fx:id="t16" layoutX="32.0" layoutY="328.0" prefHeight="69.0" prefWidth="114.0" style="-fx-background-color: grey;" />
+      <TilePane fx:id="t21" layoutX="32.0" layoutY="408.0" prefHeight="69.0" prefWidth="114.0" style="-fx-background-color: grey;" />
+      <TilePane fx:id="t26" layoutX="32.0" layoutY="488.0" prefHeight="69.0" prefWidth="114.0" style="-fx-background-color: grey;" />
+      <TilePane fx:id="t31" layoutX="32.0" layoutY="568.0" prefHeight="69.0" prefWidth="114.0" style="-fx-background-color: grey;" />
+      <TilePane fx:id="t2" layoutX="159.0" layoutY="88.0" prefHeight="69.0" prefWidth="114.0" style="-fx-background-color: grey;" />
+      <TilePane fx:id="t7" layoutX="159.0" layoutY="168.0" prefHeight="69.0" prefWidth="114.0" style="-fx-background-color: grey;" />
+      <TilePane fx:id="t12" layoutX="159.0" layoutY="248.0" prefHeight="69.0" prefWidth="114.0" style="-fx-background-color: grey;" />
+      <TilePane fx:id="t17" layoutX="159.0" layoutY="328.0" prefHeight="69.0" prefWidth="114.0" style="-fx-background-color: grey;" />
+      <TilePane fx:id="t22" layoutX="159.0" layoutY="408.0" prefHeight="69.0" prefWidth="114.0" style="-fx-background-color: grey;" />
+      <TilePane fx:id="t27" layoutX="159.0" layoutY="488.0" prefHeight="69.0" prefWidth="114.0" style="-fx-background-color: grey;" />
+      <TilePane fx:id="t32" layoutX="159.0" layoutY="568.0" prefHeight="69.0" prefWidth="114.0" style="-fx-background-color: grey;" />
+      <TilePane fx:id="t3" layoutX="286.0" layoutY="88.0" prefHeight="69.0" prefWidth="114.0" style="-fx-background-color: grey;" />
+      <TilePane fx:id="t8" layoutX="286.0" layoutY="168.0" prefHeight="69.0" prefWidth="114.0" style="-fx-background-color: grey;" />
+      <TilePane fx:id="t13" layoutX="286.0" layoutY="248.0" prefHeight="69.0" prefWidth="114.0" style="-fx-background-color: grey;" />
+      <TilePane fx:id="t18" layoutX="286.0" layoutY="328.0" prefHeight="69.0" prefWidth="114.0" style="-fx-background-color: grey;" />
+      <TilePane fx:id="t23" layoutX="286.0" layoutY="408.0" prefHeight="69.0" prefWidth="114.0" style="-fx-background-color: grey;" />
+      <TilePane fx:id="t28" layoutX="286.0" layoutY="488.0" prefHeight="69.0" prefWidth="114.0" style="-fx-background-color: grey;" />
+      <TilePane fx:id="t33" layoutX="286.0" layoutY="568.0" prefHeight="69.0" prefWidth="114.0" style="-fx-background-color: grey;" />
+      <TilePane fx:id="t4" layoutX="413.0" layoutY="88.0" prefHeight="69.0" prefWidth="114.0" style="-fx-background-color: grey;" />
+      <TilePane fx:id="t9" layoutX="413.0" layoutY="168.0" prefHeight="69.0" prefWidth="114.0" style="-fx-background-color: grey;" />
+      <TilePane fx:id="t14" layoutX="413.0" layoutY="248.0" prefHeight="69.0" prefWidth="114.0" style="-fx-background-color: grey;" />
+      <TilePane fx:id="t19" layoutX="413.0" layoutY="328.0" prefHeight="69.0" prefWidth="114.0" style="-fx-background-color: grey;" />
+      <TilePane fx:id="t24" layoutX="413.0" layoutY="408.0" prefHeight="69.0" prefWidth="114.0" style="-fx-background-color: grey;" />
+      <TilePane fx:id="t29" layoutX="413.0" layoutY="488.0" prefHeight="69.0" prefWidth="114.0" style="-fx-background-color: grey;" />
+      <TilePane fx:id="t34" layoutX="413.0" layoutY="568.0" prefHeight="69.0" prefWidth="114.0" style="-fx-background-color: grey;" />
+      <TilePane fx:id="t5" layoutX="540.0" layoutY="88.0" prefHeight="69.0" prefWidth="114.0" style="-fx-background-color: grey;" />
+      <TilePane fx:id="t10" layoutX="540.0" layoutY="168.0" prefHeight="69.0" prefWidth="114.0" style="-fx-background-color: grey;" />
+      <TilePane fx:id="t15" layoutX="540.0" layoutY="248.0" prefHeight="69.0" prefWidth="114.0" style="-fx-background-color: grey;" />
+      <TilePane fx:id="t20" layoutX="540.0" layoutY="328.0" prefHeight="69.0" prefWidth="114.0" style="-fx-background-color: grey;" />
+      <TilePane fx:id="t25" layoutX="540.0" layoutY="408.0" prefHeight="69.0" prefWidth="114.0" style="-fx-background-color: grey;" />
+      <TilePane fx:id="t30" layoutX="540.0" layoutY="488.0" prefHeight="69.0" prefWidth="114.0" style="-fx-background-color: grey;" />
+      <TilePane fx:id="t35" layoutX="540.0" layoutY="568.0" prefHeight="69.0" prefWidth="114.0" style="-fx-background-color: grey;" />
+   </children>
+</AnchorPane>
