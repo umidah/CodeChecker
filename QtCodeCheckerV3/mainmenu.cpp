@@ -5,6 +5,7 @@
 
 QDir *listDir;
 QDir *comboDir;
+QString currentDir;
 QString qDir;
 QString defDir;
 QList<fileToken> fileList;
@@ -35,7 +36,7 @@ void MainMenu::on_pushButton_clicked(){
     foreach(QFileInfo var, current->entryInfoList()){
         fileToken temp(var);
         temp.getFileList(var);
-        temp.printFileList();
+        //temp.printFileList();
         //temp.readFile(temp.fInfo);
         //temp.printQStrings();
         //temp.printByteArrays();
@@ -49,6 +50,7 @@ void MainMenu::on_comboBox_currentTextChanged(const QString &arg1){
 void MainMenu::on_listWidget_itemDoubleClicked(QListWidgetItem *item){\
     QString arg1 = item->text();
     changeDir(arg1, ui->listWidget, ui->comboBox);
+    currentDir = arg1;
 }
 
 void changeDir(const QString &arg1, QListWidget *list, QComboBox *combo){

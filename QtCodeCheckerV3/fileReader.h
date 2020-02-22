@@ -7,6 +7,7 @@
 #include <QList>
 #include <QTextCodec>
 #include <QDebug>
+#include <QDirIterator>
 
 
 class fileToken{
@@ -22,8 +23,13 @@ public:
     fileToken(){}
 
     void getFileList(QFileInfo fileInfo){
+        QDirIterator it(fileInfo.absoluteFilePath(), QDirIterator::Subdirectories);
         QDir dir;
         dir.setPath(fileInfo.absoluteFilePath());
+        while(it.hasNext()){
+            qDebug() << it.next();
+        }
+        /*
         foreach(QFileInfo var, dir.entryInfoList(QDir::NoDotDot)){
             if(var.isDir()){
                 fileToken::getFileList(var.absoluteFilePath());
@@ -32,6 +38,7 @@ public:
                 fNameList.append(var.absoluteFilePath());
             }
         }
+        */
     }
 
     void readFile(QFileInfo fileInfo){
@@ -83,5 +90,6 @@ extern QDir *listDir;
 extern QDir *comboDir;
 extern QString qDir;
 extern QString defDir;
+extern QString currentDir;
 
 #endif // FILEREADER_H
