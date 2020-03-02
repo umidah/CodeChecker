@@ -290,22 +290,17 @@ public:
         int a, b, diff;
         wordAmount *temp;
         size_t size = this->data.size();
-        //cout << size << endl;
         this->matrixSize = size;
         this->matrix = new float*[size];
         for(size_t i = 0; i< size; i++){
             this->matrix[i] = new float[size];
-            //this->vecMatrix[i] = new vector<float>(size);
             temp = &this->data[i];
             a = temp->vecStringValue();
             for(size_t j = 0; j < size; j++){
-                //cout << this->data[j].entireThing << endl;
                 b = this->data[j].vecStringValue();
                 if(a < b) diff = a;
                 else diff = b;
-                //qDebug() << a << endl << b;
                 if(diff < 0.f) diff = -diff;
-                //qDebug() << 2*(getPercentDiff(a, b, diff)-0.5);
                 this->matrix[i][j] = 2*(getPercentDiff(a, b, diff)-0.5);
             }
         }

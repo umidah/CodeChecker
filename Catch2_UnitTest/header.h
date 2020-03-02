@@ -280,10 +280,10 @@ private:
     //queue<string> currentDir;
     vector<wordAmount> data;
     float** matrix;
-    int matrixSize = 0;
 
 public:
 
+    int matrixSize = 0;
     float** getMatrix(){
         return this->matrix;
     }
@@ -458,4 +458,9 @@ public:
         }
     }
 };
+
+extern wordAmount a, b, c, t1, t2;
+extern wordAmountArr temp;
+extern string as, bs, cs;
+extern int x, y, z;
 

@@ -91,6 +91,8 @@ void MainWindow::on_pushButton_clicked()
     table->setColumnCount(size);
     for(int x = 0; x < size; x++){
         for(int y = 0; y < size; y++){
+            if(x == 0 ) ;
+            table->setColumnWidth(y, 40);
             float tempF = (code[x][y]/2) + 0.5;
             int r = (int) (255*tempF), g = 50, b = (int) (255*(1-tempF));
             QColor color(r, g, b);
@@ -164,7 +166,7 @@ void MainWindow::on_spinBox_valueChanged(int arg1)
 void MainWindow::on_pushButton_3_clicked()
 {
     defDir = ui->comboBox->currentText();
-    ofstream file("../QtCodeV2/defaultDir.txt");
+    ofstream file("./defaultDir.txt");
     if(!file.is_open()){
         QMessageBox error;
         error.setText("Default path file DNE!");

@@ -111,7 +111,7 @@ public:
 
     void retranslateUi(QMainWindow *MainWindow)
     {
-        MainWindow->setWindowTitle(QCoreApplication::translate("MainWindow", "MainWindow", nullptr));
+        MainWindow->setWindowTitle(QCoreApplication::translate("MainWindow", "Code Comparison Matrix", nullptr));
         pushButton_2->setText(QCoreApplication::translate("MainWindow", "Select Dir", nullptr));
         pushButton_3->setText(QCoreApplication::translate("MainWindow", "Make Default", nullptr));
         pushButton->setText(QCoreApplication::translate("MainWindow", "Show Matrix", nullptr));
