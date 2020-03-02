@@ -258,6 +258,10 @@ public:
         this->data.push_back(a);
     }
 
+    string getDir(int at){
+        return allDirs[at];
+    }
+
     void pushFile(string path){
         wordAmount temp;
         temp.loadFile(path);

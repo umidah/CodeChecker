@@ -4,6 +4,7 @@
 #include <QMessageBox>
 
 QTableWidget *table;
+QListWidget *legend;
 QDir *listDir;
 QDir *comboDir;
 
@@ -64,9 +65,14 @@ void MainWindow::on_pushButton_clicked()
         table->close();
         delete table;
     }
+    if(legend != nullptr){
+        legend->close();
+        delete legend;
+    }
     //QWidget *wdg = new QWidget;
     wordAmountArr temp;
     table = new QTableWidget;
+    legend = new QListWidget;
     string path = "C:/Users/Laptop/Documents/CodeChecker/QtCodeV2/Submissions";
     path = "../QtCodeV2/Submissions";
     path = qDir.toUtf8().constData();
@@ -81,17 +87,16 @@ void MainWindow::on_pushButton_clicked()
         qDebug() << "Does not exist";
     }
     temp.loadSuperDir(path);
-    temp.loadSuperDir("Submissions/");
     chooseMatrix(i, temp);
-    int size = 10;
-    size = temp.matrixSize;
+    int size = temp.matrixSize;
     float **code = temp.getMatrix();
-    qDebug() << temp.matrix[0][0];
     table->setRowCount(size);
     table->setColumnCount(size);
     for(int x = 0; x < size; x++){
+        QString legendItem = QString::number(x+1) + ": " + QString::fromStdString(temp.getDir(x));
+        legend->addItem(legendItem);
         for(int y = 0; y < size; y++){
-            if(x == 0 ) ;
+            if(x == 0 )
             table->setColumnWidth(y, 40);
             float tempF = (code[x][y]/2) + 0.5;
             int r = (int) (255*tempF), g = 50, b = (int) (255*(1-tempF));
@@ -103,7 +108,15 @@ void MainWindow::on_pushButton_clicked()
             table->setItem(x,y, curr);
         }
     }
+
+    QObject::connect(legend,  &QListWidget::itemDoubleClicked, [=] (QListWidgetItem *item) {
+        int i = legend->currentRow();
+        table->selectRow(i);
+        table->selectColumn(i);
+    });
+
     table->showMaximized();
+    legend->show();
 }
 
 void MainWindow::on_pushButton_2_clicked()
