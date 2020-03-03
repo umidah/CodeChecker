@@ -13,6 +13,10 @@
 #include <QDebug>
 #include <QDir>
 #include <QStringList>
+#include <QTableWidget>
+#include <QMessageBox>
+#include <QListWidget>
+#include <QListWidgetItem>
 
 
 #endif // INCLUDES_H

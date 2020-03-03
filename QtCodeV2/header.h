@@ -5,6 +5,15 @@
 using namespace std;
 
 
+extern QTableWidget *table;
+extern QListWidget *legend;
+extern QListWidget *guide;
+extern QDir *listDir;
+extern QDir *comboDir;
+extern QString qDir;
+extern QString defDir;
+
+
 class wordAmount{
 public:
 

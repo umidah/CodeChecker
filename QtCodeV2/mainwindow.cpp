@@ -1,10 +1,9 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include <QTableWidget>
-#include <QMessageBox>
 
 QTableWidget *table;
 QListWidget *legend;
+QListWidget *guide;
 QDir *listDir;
 QDir *comboDir;
 
@@ -24,7 +23,7 @@ MainWindow::MainWindow(QWidget *parent)
         qDir = QString::fromStdString(temp);
     }
     else{
-        qDir = "../QtCodeV2";
+        qDir = "./";
     }
     file.close();
     ui->setupUi(this);
@@ -62,6 +61,8 @@ void MainWindow::on_pushButton_clicked()
 {
     int i = ui->spinBox->value();
     if(table != nullptr){
+        table->clear();
+        table->clearContents();
         table->close();
         delete table;
     }
@@ -69,10 +70,15 @@ void MainWindow::on_pushButton_clicked()
         legend->close();
         delete legend;
     }
+    if(guide != nullptr){
+        guide->close();
+        delete guide;
+    }
     //QWidget *wdg = new QWidget;
     wordAmountArr temp;
     table = new QTableWidget;
     legend = new QListWidget;
+    guide = new QListWidget;
     string path = "C:/Users/Laptop/Documents/CodeChecker/QtCodeV2/Submissions";
     path = "../QtCodeV2/Submissions";
     path = qDir.toUtf8().constData();
@@ -105,6 +111,7 @@ void MainWindow::on_pushButton_clicked()
             temp.setNum(truncate(code[x][y]));
             QTableWidgetItem *curr = new QTableWidgetItem(temp);
             curr->setBackgroundColor(color);
+            curr->setFlags(curr->flags() ^ Qt::ItemIsEditable);
             table->setItem(x,y, curr);
         }
     }
@@ -114,9 +121,22 @@ void MainWindow::on_pushButton_clicked()
         table->selectRow(i);
         table->selectColumn(i);
     });
-
     table->showMaximized();
     legend->show();
+    QListWidgetItem *a, *b, *c;
+    QColor good(0, 50, 255), bad(255, 50, 0);
+    a = new QListWidgetItem("Guide: ");
+    b = new QListWidgetItem("Good");
+    c = new QListWidgetItem("Bad");
+
+    b->setBackgroundColor(good);
+    c->setBackgroundColor(bad);
+
+    guide->addItem(a);
+    guide->addItem(b);
+    guide->addItem(c);
+
+    guide->show();
 }
 
 void MainWindow::on_pushButton_2_clicked()
