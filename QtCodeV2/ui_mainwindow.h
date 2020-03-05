@@ -14,6 +14,7 @@
 #include <QtWidgets/QComboBox>
 #include <QtWidgets/QGridLayout>
 #include <QtWidgets/QHBoxLayout>
+#include <QtWidgets/QLabel>
 #include <QtWidgets/QListWidget>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenuBar>
@@ -30,15 +31,16 @@ class Ui_MainWindow
 public:
     QWidget *centralwidget;
     QGridLayout *gridLayout;
+    QHBoxLayout *horizontalLayout;
+    QSpinBox *spinBox;
+    QPushButton *pushButton;
+    QSpacerItem *horizontalSpacer;
     QHBoxLayout *horizontalLayout_2;
     QComboBox *comboBox;
     QPushButton *pushButton_2;
     QPushButton *pushButton_3;
     QListWidget *listWidget;
-    QHBoxLayout *horizontalLayout;
-    QSpinBox *spinBox;
-    QPushButton *pushButton;
-    QSpacerItem *horizontalSpacer;
+    QLabel *label;
     QMenuBar *menubar;
     QStatusBar *statusbar;
 
@@ -51,6 +53,25 @@ public:
         centralwidget->setObjectName(QString::fromUtf8("centralwidget"));
         gridLayout = new QGridLayout(centralwidget);
         gridLayout->setObjectName(QString::fromUtf8("gridLayout"));
+        horizontalLayout = new QHBoxLayout();
+        horizontalLayout->setObjectName(QString::fromUtf8("horizontalLayout"));
+        spinBox = new QSpinBox(centralwidget);
+        spinBox->setObjectName(QString::fromUtf8("spinBox"));
+
+        horizontalLayout->addWidget(spinBox);
+
+        pushButton = new QPushButton(centralwidget);
+        pushButton->setObjectName(QString::fromUtf8("pushButton"));
+
+        horizontalLayout->addWidget(pushButton);
+
+        horizontalSpacer = new QSpacerItem(128, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        horizontalLayout->addItem(horizontalSpacer);
+
+
+        gridLayout->addLayout(horizontalLayout, 3, 0, 1, 1);
+
         horizontalLayout_2 = new QHBoxLayout();
         horizontalLayout_2->setObjectName(QString::fromUtf8("horizontalLayout_2"));
         comboBox = new QComboBox(centralwidget);
@@ -74,26 +95,12 @@ public:
         listWidget = new QListWidget(centralwidget);
         listWidget->setObjectName(QString::fromUtf8("listWidget"));
 
-        gridLayout->addWidget(listWidget, 1, 0, 1, 1);
+        gridLayout->addWidget(listWidget, 2, 0, 1, 1);
 
-        horizontalLayout = new QHBoxLayout();
-        horizontalLayout->setObjectName(QString::fromUtf8("horizontalLayout"));
-        spinBox = new QSpinBox(centralwidget);
-        spinBox->setObjectName(QString::fromUtf8("spinBox"));
+        label = new QLabel(centralwidget);
+        label->setObjectName(QString::fromUtf8("label"));
 
-        horizontalLayout->addWidget(spinBox);
-
-        pushButton = new QPushButton(centralwidget);
-        pushButton->setObjectName(QString::fromUtf8("pushButton"));
-
-        horizontalLayout->addWidget(pushButton);
-
-        horizontalSpacer = new QSpacerItem(128, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
-
-        horizontalLayout->addItem(horizontalSpacer);
-
-
-        gridLayout->addLayout(horizontalLayout, 2, 0, 1, 1);
+        gridLayout->addWidget(label, 1, 0, 1, 1);
 
         MainWindow->setCentralWidget(centralwidget);
         menubar = new QMenuBar(MainWindow);
@@ -111,10 +118,11 @@ public:
 
     void retranslateUi(QMainWindow *MainWindow)
     {
-        MainWindow->setWindowTitle(QCoreApplication::translate("MainWindow", "MainWindow", nullptr));
+        MainWindow->setWindowTitle(QCoreApplication::translate("MainWindow", "Code Comparison Matrix", nullptr));
+        pushButton->setText(QCoreApplication::translate("MainWindow", "Show Matrix", nullptr));
         pushButton_2->setText(QCoreApplication::translate("MainWindow", "Select Dir", nullptr));
         pushButton_3->setText(QCoreApplication::translate("MainWindow", "Make Default", nullptr));
-        pushButton->setText(QCoreApplication::translate("MainWindow", "Show Matrix", nullptr));
+        label->setText(QCoreApplication::translate("MainWindow", "Use list or combobox to navigate to desired directory. Use the 'Show Matrix' button to make a comparison matrix", nullptr));
     } // retranslateUi
 
 };

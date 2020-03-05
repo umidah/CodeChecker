@@ -16,7 +16,7 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
-    ifstream file("../QtCodeV2/defaultDir.txt");
+    ifstream file("./defaultDir.txt");
     string temp;
     if(file.is_open()){
         getline(file, temp, '\n');
@@ -30,12 +30,6 @@ MainWindow::MainWindow(QWidget *parent)
     ui->spinBox->setRange(0,1);
     comboDir = new QDir(qDir);
     changeDir(qDir, ui->listWidget, ui->comboBox);
-    /*
-    foreach (QFileInfo temp, comboDir->entryInfoList()) {
-        if(temp.isDir())
-        ui->comboBox->addItem(temp.absolutePath());
-    }
-    */
 }
 
 MainWindow::~MainWindow()
@@ -125,9 +119,9 @@ void MainWindow::on_pushButton_clicked()
     legend->show();
     QListWidgetItem *a, *b, *c;
     QColor good(0, 50, 255), bad(255, 50, 0);
-    a = new QListWidgetItem("Guide: ");
-    b = new QListWidgetItem("Good");
-    c = new QListWidgetItem("Bad");
+    a = new QListWidgetItem("Guide: (How similar are the strings in each code?)");
+    b = new QListWidgetItem("Good or Very Different");
+    c = new QListWidgetItem("Bad or Very Similar");
 
     b->setBackgroundColor(good);
     c->setBackgroundColor(bad);
